@@ -52,7 +52,7 @@ public class BusinessDaoImpl implements BusinessDao {
             ResultSet rs = null;
             ArrayList<Business> list = null;
             StringBuffer sql = new StringBuffer("select * from business where 1=1 ");
-            System.out.println(businessAddress+businessName);
+
             if(businessName!=null && !( businessName.equals(""))) {
                 sql.append(" and businessName like '%"+businessName+"%' ");
             }
@@ -92,6 +92,43 @@ public class BusinessDaoImpl implements BusinessDao {
 
     @Override
     public int insert(String businessName) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<Business> list = null;
+        StringBuffer sql = new StringBuffer("insert into bussiness where 1=1 ");
+
+        if(businessName!=null && !( businessName.equals(""))) {
+            sql.append(" and businessName like '%"+businessName+"%' ");
+        }
+
+        try {
+            conn = JDBCUtils.getConnection();
+
+            pstmt = conn.prepareStatement(sql.toString());
+            // 封装查询结果
+            rs = pstmt.executeQuery();
+
+            list = new ArrayList<Business>();
+
+
+            while (rs.next()) {
+                Business business = new Business();
+
+                business.setBusinessId(rs.getInt(1));
+                business.setPassword(rs.getString(2));
+                business.setBusinessName(rs.getString(3));
+                business.setBusinessAddress(rs.getString(4));
+                business.setBusinessExplain(rs.getString(5));
+                business.setStarPrice(rs.getDouble(6));
+                business.setDeliveryPrice(rs.getDouble(7));
+                list.add(business);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.close(rs,pstmt,conn);
+        }
         return 0;
     }
 
