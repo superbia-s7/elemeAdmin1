@@ -24,9 +24,9 @@ public class AdminDaoImpl implements AdminDao {
             rs = pstmt.executeQuery();
             while (rs.next()){
                 admin = new Admin();
-                admin.setAdminId(rs.getInt("adminId"));
-                admin.setAdminName(rs.getString("adminName"));
-                admin.setPassword(rs.getString("password"));
+                admin.setAdminId(rs.getInt(1));
+                admin.setAdminName(rs.getString(2));
+                admin.setPassword(rs.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
