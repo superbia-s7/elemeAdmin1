@@ -20,7 +20,7 @@ public class FoodDaoImpl implements FoodDao {
     @Override
     public List<Food> selectFood(Integer businessId) {
         ArrayList<Food> list = null;
-        String sql = "select * from business b left join food f on (b.businessId = f.businessId) where f.businessId = ?";
+        String sql = "select * from  food where businessId = ?";
 
         try {
             conn = JDBCUtils.getConnection();

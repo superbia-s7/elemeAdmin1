@@ -47,6 +47,12 @@ public class BusinessViewImpl implements BusinessView {
     }
 
     @Override
+    public int upPassword(String password,Integer businessId) {
+        BusinessDaoImpl dao = new BusinessDaoImpl();
+        return dao.upPassword(password,businessId);
+    }
+
+    @Override
     public int updateBusiness(Integer businessId,
                               String businessName,
                               String businessAddress,

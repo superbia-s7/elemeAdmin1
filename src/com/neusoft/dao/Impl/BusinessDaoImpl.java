@@ -37,57 +37,57 @@ public class BusinessDaoImpl implements BusinessDao {
                 business.setDeliveryPrice(rs.getDouble(7));
                 list.add(business);
             }
-        }catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-            JDBCUtils.close(rs,stmt,conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.close(rs, stmt, conn);
         }
         return list;
     }
 
-        @Override
-    public List<Business> select(String businessName,String businessAddress) {
-            Connection conn = null;
-            PreparedStatement pstmt = null;
-            ResultSet rs = null;
-            ArrayList<Business> list = null;
-            StringBuffer sql = new StringBuffer("select * from business where 1=1 ");
+    @Override
+    public List<Business> select(String businessName, String businessAddress) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<Business> list = null;
+        StringBuffer sql = new StringBuffer("select * from business where 1=1 ");
 
-            if(businessName!=null && !( businessName.equals(""))) {
-                sql.append(" and businessName like '%"+businessName+"%' ");
+        if (businessName != null && !(businessName.equals(""))) {
+            sql.append(" and businessName like '%" + businessName + "%' ");
+        }
+        if (businessAddress != null && !(businessAddress.equals(""))) {
+            sql.append(" and businessAddress like '%" + businessAddress + "%' ");
+        }
+
+        try {
+            conn = JDBCUtils.getConnection();
+
+            pstmt = conn.prepareStatement(sql.toString());
+            // 封装查询结果
+            rs = pstmt.executeQuery();
+
+            list = new ArrayList<Business>();
+
+
+            while (rs.next()) {
+                Business business = new Business();
+
+                business.setBusinessId(rs.getInt(1));
+                business.setPassword(rs.getString(2));
+                business.setBusinessName(rs.getString(3));
+                business.setBusinessAddress(rs.getString(4));
+                business.setBusinessExplain(rs.getString(5));
+                business.setStarPrice(rs.getDouble(6));
+                business.setDeliveryPrice(rs.getDouble(7));
+                list.add(business);
             }
-            if(businessAddress!=null && ! (businessAddress.equals(""))){
-                sql.append(" and businessAddress like '%"+businessAddress+"%' ");
-            }
-
-            try {
-                conn = JDBCUtils.getConnection();
-
-                pstmt = conn.prepareStatement(sql.toString());
-                // 封装查询结果
-                rs = pstmt.executeQuery();
-
-                list = new ArrayList<Business>();
-
-
-                while (rs.next()) {
-                    Business business = new Business();
-
-                    business.setBusinessId(rs.getInt(1));
-                    business.setPassword(rs.getString(2));
-                    business.setBusinessName(rs.getString(3));
-                    business.setBusinessAddress(rs.getString(4));
-                    business.setBusinessExplain(rs.getString(5));
-                    business.setStarPrice(rs.getDouble(6));
-                    business.setDeliveryPrice(rs.getDouble(7));
-                    list.add(business);
-                }
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-                JDBCUtils.close(rs,pstmt,conn);
-            }
-            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
+        }
+        return list;
     }
 
     @Override
@@ -107,14 +107,14 @@ public class BusinessDaoImpl implements BusinessDao {
             pstmt.executeUpdate();
             // 获取自增长的列
             rs = pstmt.getGeneratedKeys();
-            if (rs.next()){
+            if (rs.next()) {
                 businessId = rs.getInt(1);
             }
             return businessId;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            JDBCUtils.close(rs,pstmt,conn);
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
         }
         return 0;
     }
@@ -143,16 +143,16 @@ public class BusinessDaoImpl implements BusinessDao {
             pstmt.setDouble(5, deliveryPrice);
             pstmt.setInt(6, businessId);
             System.out.println(pstmt);
-            int a=pstmt.executeUpdate();
+            int a = pstmt.executeUpdate();
 
 
-                return a;
+            return a;
 
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            JDBCUtils.close(rs,pstmt,conn);
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
         }
         return 0;
     }
@@ -169,17 +169,44 @@ public class BusinessDaoImpl implements BusinessDao {
             conn = JDBCUtils.getConnection();
             String sql = "delete from business where businessId = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,id);
+            pstmt.setInt(1, id);
             // 封装查询结果
 
             int num = pstmt.executeUpdate();
 
             return num;
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            JDBCUtils.close(rs,pstmt,conn);
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
+        }
+        return 0;
+    }
+
+    @Override
+    public int upPassword(String password,Integer businessId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+
+        String sql = "update business set password = ? where businessId = ?";
+        try {
+            conn = JDBCUtils.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            // 可以在prepareStatement中设置返回自增长列的值
+         pstmt.setString(1,password);
+         pstmt.setInt(2,businessId);
+            System.out.println(pstmt);
+            int a = pstmt.executeUpdate();
+            return a;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
         }
         return 0;
     }
@@ -191,20 +218,20 @@ public class BusinessDaoImpl implements BusinessDao {
         ResultSet rs = null;
         Business business = null;
         String sql = "select * from business where businessId = ? and password = ?";
-        try{
+        try {
             conn = JDBCUtils.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, businessId);
             pstmt.setString(2, password);
             rs = pstmt.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 business = new Business();
                 business.setBusinessId(rs.getInt("businessId"));
                 business.setPassword(rs.getString("password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             JDBCUtils.close(rs, pstmt, conn);
         }
 
@@ -223,11 +250,9 @@ public class BusinessDaoImpl implements BusinessDao {
             conn = JDBCUtils.getConnection();
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,businessId);
+            pstmt.setInt(1, businessId);
             // 封装查询结果
             rs = pstmt.executeQuery();
-
-
 
 
             while (rs.next()) {
@@ -242,10 +267,10 @@ public class BusinessDaoImpl implements BusinessDao {
                 business.setDeliveryPrice(rs.getDouble(7));
 
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            JDBCUtils.close(rs,pstmt,conn);
+        } finally {
+            JDBCUtils.close(rs, pstmt, conn);
         }
         return business;
     }

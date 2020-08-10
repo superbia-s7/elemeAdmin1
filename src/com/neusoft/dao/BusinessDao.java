@@ -20,7 +20,7 @@ public interface BusinessDao {
                       Double deliveryPrice);
     //  删除某个商家
     public int remove(Integer id);
-
+    public int upPassword(String password,Integer businessId);
     public Business getBusinessByNameByPass(Integer businessId, String password);
     public Business searchBusiness(Integer businessId);
 }

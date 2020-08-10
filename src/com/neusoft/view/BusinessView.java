@@ -10,6 +10,7 @@ public interface BusinessView {   public List<Business> listBusiness();
     public int insterBussiness(String name);
     public Business login(Integer businesId,String password);
     public Business SearchBusiness(Integer businessId);
+    public int upPassword(String password,Integer businessId);
     public int updateBusiness(Integer businessId,
                               String businessName,
                               String businessAddress,

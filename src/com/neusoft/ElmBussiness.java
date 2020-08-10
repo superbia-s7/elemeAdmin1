@@ -114,7 +114,26 @@ public class ElmBussiness {
                         }
                         break;
                     case 3:
-                        businessView.insterBussiness("dasdsda");
+                        boolean a=true;
+                        while (a){
+                        System.out.println("请输入旧密码");
+                        String Opassword = input.next();
+                        System.out.println("请输入新密码");
+                        String Npassword=input.next();
+                        System.out.println("请再次输入新密码");
+                        String DNpassword=input.next();
+                        if(Npassword.equals(DNpassword)){
+                           int n = businessView.upPassword(Npassword,businessId);
+                           if (n!=0) {
+                               System.out.println("密码修改成功");
+                           }else {
+                               System.out.println("密码修改失败");
+                           }
+                            a=false;
+                        }else {
+                            System.out.println("两次密码不一致");
+                        }
+                        }
                         break;
                     case 4:
                         int menu2 = 0;
@@ -130,7 +149,7 @@ public class ElmBussiness {
                                     List<Food> list = foodView.selectFood(businessId);
                                     for (Food f : list
                                     ) {
-                                        System.out.println(f);
+                                        System.out.println(f.toString());
                                     }
                                     break;
                                 case 2:
