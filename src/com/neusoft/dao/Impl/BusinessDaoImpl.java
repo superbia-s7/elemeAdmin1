@@ -120,7 +120,40 @@ public class BusinessDaoImpl implements BusinessDao {
     }
 
     @Override
-    public int update(Integer id, Integer score) {
+    public int update(Integer businessId,
+                      String businessName,
+                      String businessAddress,
+                      String businessExplain,
+                      Double starPrice,
+                      Double deliveryPrice) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+
+        String sql = "update business set businessName = ?,businessAddress = ?,businessExplain = ?,starPrice =?,deliveryPrice = ? where businessId = ?";
+        try {
+            conn = JDBCUtils.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            // 可以在prepareStatement中设置返回自增长列的值
+            pstmt.setString(1, businessName);
+            pstmt.setString(2, businessAddress);
+            pstmt.setString(3, businessExplain);
+            pstmt.setDouble(4, starPrice);
+            pstmt.setDouble(5, deliveryPrice);
+            pstmt.setInt(6, businessId);
+            System.out.println(pstmt);
+            int a=pstmt.executeUpdate();
+
+
+                return a;
+
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.close(rs,pstmt,conn);
+        }
         return 0;
     }
 
@@ -149,5 +182,71 @@ public class BusinessDaoImpl implements BusinessDao {
             JDBCUtils.close(rs,pstmt,conn);
         }
         return 0;
+    }
+
+    @Override
+    public Business getBusinessByNameByPass(Integer businessId, String password) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Business business = null;
+        String sql = "select * from business where businessId = ? and password = ?";
+        try{
+            conn = JDBCUtils.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, businessId);
+            pstmt.setString(2, password);
+            rs = pstmt.executeQuery();
+            while (rs.next()){
+                business = new Business();
+                business.setBusinessId(rs.getInt("businessId"));
+                business.setPassword(rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.close(rs, pstmt, conn);
+        }
+
+        return business;
+    }
+
+    @Override
+    public Business searchBusiness(Integer businessId) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = new String("select * from business where businessId = ? ");
+        Business business = new Business();
+        try {
+            conn = JDBCUtils.getConnection();
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,businessId);
+            // 封装查询结果
+            rs = pstmt.executeQuery();
+
+
+
+
+            while (rs.next()) {
+
+
+                business.setBusinessId(rs.getInt(1));
+                business.setPassword(rs.getString(2));
+                business.setBusinessName(rs.getString(3));
+                business.setBusinessAddress(rs.getString(4));
+                business.setBusinessExplain(rs.getString(5));
+                business.setStarPrice(rs.getDouble(6));
+                business.setDeliveryPrice(rs.getDouble(7));
+
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.close(rs,pstmt,conn);
+        }
+        return business;
     }
 }

@@ -30,29 +30,4 @@ public class AdminViewImpl implements AdminView {
         return dao.getAdminByNameByPass(adminName, password);
     }
 
-    @Override
-    public List<Business> listBusiness() {
-        BusinessDao businessDao = new BusinessDaoImpl();
-        return businessDao.findAll();
-    }
-
-    @Override
-    public List<Business> selectBusiess(String businessName,String businessAddress) {
-        BusinessDao businessDao = new BusinessDaoImpl();
-        return businessDao.select(businessName,businessAddress);
-    }
-
-    @Override
-    public int deleteBussiness(Integer id) {
-        BusinessDao businessDao = new BusinessDaoImpl();
-
-
-        return businessDao.remove(id);
-    }
-
-    @Override
-    public int insterBussiness(String name) {
-        BusinessDao businessDao = new BusinessDaoImpl();
-        return businessDao.insert(name);
-    }
 }

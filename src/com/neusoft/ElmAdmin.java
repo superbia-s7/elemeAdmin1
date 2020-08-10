@@ -4,7 +4,9 @@ package com.neusoft;
 import com.neusoft.domain.Admin;
 import com.neusoft.domain.Business;
 import com.neusoft.view.AdminView;
+import com.neusoft.view.BusinessView;
 import com.neusoft.view.impl.AdminViewImpl;
+import com.neusoft.view.impl.BusinessViewImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -24,7 +26,7 @@ public class ElmAdmin {
         // 调用登录方法
         AdminView adminView = new AdminViewImpl();
         Admin admin = adminView.login();
-
+        BusinessView businessView = new BusinessViewImpl();
         if (admin!=null){
             int menu = 0;
             System.out.println("~欢迎来到饿了么商家管理系统~");
@@ -37,10 +39,11 @@ public class ElmAdmin {
 
                 switch (menu){
                     case 1:
-                        List<Business> list= adminView.listBusiness();
+                        List<Business> list= businessView.listBusiness();
 
                         for (Business a :list
                              ) {
+
                             System.out.println(a);
                         }
                         break;
@@ -50,7 +53,7 @@ public class ElmAdmin {
                         System.out.println("请输入要查询的商家地址:");
                         String baddress=input.next();
 
-                        List<Business> list2= adminView.selectBusiess(bname,baddress);
+                        List<Business> list2= businessView.selectBusiess(bname,baddress);
 
                         for (Business a :list2
                         ) {
@@ -60,7 +63,7 @@ public class ElmAdmin {
                     case 3:
                         System.out.println("请输入要添加的商家名");
                         String name=input.next();
-                        int a = adminView.insterBussiness(name);
+                        int a = businessView.insterBussiness(name);
                         System.out.println("是否确定y/n");
                         String qd1=input.next();
                         if (qd1.equals("y")){
@@ -77,7 +80,7 @@ public class ElmAdmin {
                         System.out.println("是否确定y/n");
                         String qd2=input.next();
                         if(qd2.equals("y")) {
-                            int num = adminView.deleteBussiness(i);
+                            int num = businessView.deleteBussiness(i);
                             if(num!=0){
                                 System.out.println("删除成功");
                             }else{
