@@ -41,4 +41,18 @@ public class AdminViewImpl implements AdminView {
         BusinessDao businessDao = new BusinessDaoImpl();
         return businessDao.select(businessName,businessAddress);
     }
+
+    @Override
+    public int deleteBussiness(Integer id) {
+        BusinessDao businessDao = new BusinessDaoImpl();
+
+
+        return businessDao.remove(id);
+    }
+
+    @Override
+    public int insterBussiness(String name) {
+        BusinessDao businessDao = new BusinessDaoImpl();
+        return businessDao.insert(name);
+    }
 }

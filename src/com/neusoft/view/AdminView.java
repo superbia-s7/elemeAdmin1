@@ -10,4 +10,6 @@ public interface AdminView {
     public Admin login();
     public List<Business> listBusiness();
     public List<Business> selectBusiess(String businessName,String businessAddress);
+    public int deleteBussiness(Integer id);
+    public int insterBussiness(String name);
 }

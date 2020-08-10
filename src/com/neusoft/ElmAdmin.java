@@ -58,10 +58,32 @@ public class ElmAdmin {
                         }
                         break;
                     case 3:
-                        System.out.println("1.新建商家");
+                        System.out.println("请输入要添加的商家名");
+                        String name=input.next();
+                        int a = adminView.insterBussiness(name);
+                        System.out.println("是否确定y/n");
+                        String qd1=input.next();
+                        if (qd1.equals("y")){
+                            if(a!=0){
+                                System.out.println("添加成功，ID为："+a);
+                            }else {
+                                System.out.println("添加失败");
+                            }
+                        }
                         break;
                     case 4:
-                        System.out.println("1.删除商家");
+                        System.out.println("请输入要删除的商家ID");
+                        int i = input.nextInt();
+                        System.out.println("是否确定y/n");
+                        String qd2=input.next();
+                        if(qd2.equals("y")) {
+                            int num = adminView.deleteBussiness(i);
+                            if(num!=0){
+                                System.out.println("删除成功");
+                            }else{
+                                System.out.println("删除失败");
+                            }
+                        }
                         break;
                     case 5:
                         System.out.println("========= 欢迎下次光临饿了么系统 =========");
