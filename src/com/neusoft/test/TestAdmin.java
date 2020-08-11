@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class TestAdmin {
+public class    TestAdmin {
     public static void main(String[] args) throws SQLException {
 ////        AdminDao adminDao = new AdminDaoImpl();
 //        Admin admin = adminDao.getAdminByNameByPass("zhangsan", "123");

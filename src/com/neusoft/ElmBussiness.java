@@ -114,25 +114,25 @@ public class ElmBussiness {
                         }
                         break;
                     case 3:
-                        boolean a=true;
-                        while (a){
-                        System.out.println("请输入旧密码");
-                        String Opassword = input.next();
-                        System.out.println("请输入新密码");
-                        String Npassword=input.next();
-                        System.out.println("请再次输入新密码");
-                        String DNpassword=input.next();
-                        if(Npassword.equals(DNpassword)){
-                           int n = businessView.upPassword(Npassword,businessId);
-                           if (n!=0) {
-                               System.out.println("密码修改成功");
-                           }else {
-                               System.out.println("密码修改失败");
-                           }
-                            a=false;
-                        }else {
-                            System.out.println("两次密码不一致");
-                        }
+                        boolean a = true;
+                        while (a) {
+                            System.out.println("请输入旧密码");
+                            String Opassword = input.next();
+                            System.out.println("请输入新密码");
+                            String Npassword = input.next();
+                            System.out.println("请再次输入新密码");
+                            String DNpassword = input.next();
+                            if (Npassword.equals(DNpassword)) {
+                                int n = businessView.upPassword(Npassword, businessId);
+                                if (n != 0) {
+                                    System.out.println("密码修改成功");
+                                } else {
+                                    System.out.println("密码修改失败");
+                                }
+                                a = false;
+                            } else {
+                                System.out.println("两次密码不一致");
+                            }
                         }
                         break;
                     case 4:
@@ -236,9 +236,6 @@ public class ElmBussiness {
                                     } else {
                                         System.out.println("修改失败");
                                     }
-
-                                    System.out.println("是否继续添加y/n");
-                                    tj = input.next();
 
 
                                     break;
